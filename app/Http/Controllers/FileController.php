@@ -13,17 +13,17 @@ class FileController extends Controller
 {
 
     public function index()
-{
-    $files = File::latest()->get()->map(function ($file) {
-        $file->file_path = asset('storage/' . $file->filepath);
-        return $file;
-    });
+    {
+        $files = File::latest()->get()->map(function ($file) {
+            $file->file_path = asset('storage/' . $file->filepath);
+            return $file;
+        });
 
-    return Inertia::render('Files/Index', [
-        'files' => $files,
-    ]);
-}
-    
+        return Inertia::render('Files/Index', [
+            'files' => $files,
+        ]);
+    }
+        
 
     public function create()
     {
@@ -34,11 +34,10 @@ class FileController extends Controller
     {
         $request->validate([
             'file' => 'required|file',
-            'filetype' => 'required|in:OO,MEMO,MAN',
+            'filetype' => 'required|in:OO,MEMO,MAN,REP',
             'company' => 'required|in:CSC,BSP,AIB',
         ]);
 
-       // in FileController@store
         $path = $request->file('file')->store('uploads', 'public');
 
         File::create([
@@ -48,22 +47,30 @@ class FileController extends Controller
             'company'   => $request->company,
         ]);
 
-        return redirect()->route('files.index')->with('success', 'File uploaded successfully!');
+        return redirect()->route('dashboard')->with('success', 'File uploaded successfully!');
     }
+
     public function download(File $file)
     {
-        // if missing, abort
         if (! Storage::disk('public')->exists($file->file_path)) {
             abort(404, 'File not found on disk.');
         }
     
-        // download the hashed file, but name it as the original
         return Storage::disk('public')
                       ->download($file->file_path, $file->file_name);
     }
-    
-    
 
-    
-    
+    public function byType($company, $filetype)
+    {
+        $files = File::where('company', $company)
+                    ->where('file_type', $filetype)
+                    ->latest()
+                    ->get();
+                    
+        return inertia('Files/FilteredList', [
+            'files' => $files,
+            'company' => $company,
+            'filetype' => $filetype,
+        ]);
+    }
 }

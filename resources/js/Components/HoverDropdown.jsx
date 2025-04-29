@@ -14,7 +14,7 @@ const HoverDropdownMenu = ({ label, items }) => {
                 {items.map((item, index) => (
                     <Link
                         key={index}
-                        href={item.href || "#"}
+                        href={item.href}
                         className="block px-4 py-2 text-sm hover:bg-white hover:text-red-900"
                     >
                         {item.label}

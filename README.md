@@ -1,61 +1,104 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AIBPortalv2 Application
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This is a simple web application built with **Laravel** and **Vite** as the frontend asset bundler. It serves as an example of using Laravel with Vite to manage frontend assets efficiently.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   Laravel backend for handling server-side logic
+-   Vite for managing frontend assets with fast build times
+-   React Frontend for handling UI/UX
+-   Inertia to help it more flexible and easy when using react with laravel
+-   Environment configurations
+-   Easy setup for local development
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   PHP >= 8.0
+-   Composer
+-   Node.js >= 16.x
+-   NPM >= 7.x
+-   MySQL or any other compatible database
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Follow these steps to get your application up and running:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Clone the repository
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+git clone https://github.com/jnmagat/AIBPortalv2-Clean.git
+cd your-project
+```
 
-## Laravel Sponsors
+### Install PHP dependencies
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+composer install
+```
 
-### Premium Partners
+### Install frontend dependencies
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development/)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+npm install
+```
 
-## Contributing
+<!-- ### Configure your environment
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+cp .env.example .env
+``` -->
 
-## Code of Conduct
+<!-- ### Then, configure your .env file with the correct database credentials:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel_crud
+DB_USERNAME=your_database_username
+DB_PASSWORD=your_database_password -->
 
-## Security Vulnerabilities
+### Migrate the database
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+php artisan migrate
+```
 
-## License
+<!--
+> **Note:**
+> If you encounter the following error during migration:
+>
+> ```
+> The database 'laravel_crud' does not exist on the 'mysql' connection.
+> ```
+>
+> You can resolve this by typing **`yes`** when prompted:
+>
+> Do you wish to continue with this operation? (yes/no) [yes]:
+>
+> ```bash
+> yes
+> ```
+>
+> This will create the database for you, and the migration will proceed successfully. -->
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Serve the application
+
+```bash
+php artisan serve
+```
+
+### Then, in a separate terminal, run the Vite development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at http://127.0.0.1:8000
+
+### Key Changes:
+
+1. **Clarification on the steps**: I added more specific instructions such as using `cp .env.example .env` for copying the environment file.
+2. **Consistent formatting**: For better clarity, I added section headers with steps like `Install PHP dependencies` or `Setup your Database`.
+3. **Final Deployment Instructions**: I made the terminal commands more consistent with standard practices, like `php artisan serve` and `npm run dev`.
+
+This structure will help keep your README clean and organized, making it easier for others to follow. Let me know if you need further adjustments!

@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { useForm } from "@inertiajs/react";
+import { useState, useEffect } from "react";
 
 export default function Create() {
     const { data, setData, post, processing, errors } = useForm({
@@ -7,6 +8,24 @@ export default function Create() {
         filetype: "",
         company: "",
     });
+
+    const [fileTypeOptions, setFileTypeOptions] = useState([]);
+
+    const fileTypesByCompany = {
+        AIB: ["OO", "MEMO", "MAN"],
+        CSC: ["OO", "MEMO", "MAN"],
+        BSP: ["MEMO", "MAN", "REP"],
+    };
+
+    useEffect(() => {
+        if (data.company && fileTypesByCompany[data.company]) {
+            setFileTypeOptions(fileTypesByCompany[data.company]);
+            setData("filetype", "");
+        } else {
+            setFileTypeOptions([]);
+            setData("filetype", "");
+        }
+    }, [data.company]);
 
     function submit(e) {
         e.preventDefault();
@@ -41,31 +60,6 @@ export default function Create() {
                             )}
                         </div>
 
-                        {/* File type selection */}
-                        <div>
-                            <label className="block text-gray-700 mb-2">
-                                File Type
-                            </label>
-                            <select
-                                name="file_type"
-                                value={data.filetype}
-                                onChange={(e) =>
-                                    setData("filetype", e.target.value)
-                                }
-                                className="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none"
-                            >
-                                <option value="">Select type</option>
-                                <option value="OO">OO</option>
-                                <option value="MEMO">MEMO</option>
-                                <option value="MAN">MAN</option>
-                            </select>
-                            {errors.filetype && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    {errors.filetype}
-                                </p>
-                            )}
-                        </div>
-
                         {/* Company selection */}
                         <div>
                             <label className="block text-gray-700 mb-2">
@@ -86,6 +80,34 @@ export default function Create() {
                             {errors.company && (
                                 <p className="text-red-500 text-sm mt-1">
                                     {errors.company}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* File type selection (dependent on company) */}
+                        <div>
+                            <label className="block text-gray-700 mb-2">
+                                File Type
+                            </label>
+                            <select
+                                name="filetype"
+                                value={data.filetype}
+                                onChange={(e) =>
+                                    setData("filetype", e.target.value)
+                                }
+                                className="w-full border rounded px-3 py-2 focus:ring-2 focus:ring-red-400 focus:outline-none"
+                                disabled={fileTypeOptions.length === 0}
+                            >
+                                <option value="">Select type</option>
+                                {fileTypeOptions.map((type, idx) => (
+                                    <option key={idx} value={type}>
+                                        {type}
+                                    </option>
+                                ))}
+                            </select>
+                            {errors.filetype && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    {errors.filetype}
                                 </p>
                             )}
                         </div>

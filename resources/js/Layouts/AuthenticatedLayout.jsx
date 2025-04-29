@@ -1,12 +1,14 @@
+import { useState } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import Navbar from "@/Components/Navbar";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUpload } from "@fortawesome/free-solid-svg-icons";
+import MobileDropdownMenu from "@/Components/MobileDropdownMenu";
+import { menus } from "@/Components/Menus";
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
@@ -14,10 +16,14 @@ export default function AuthenticatedLayout({ header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
+    const [showingMobileMenu, setShowingMobileMenu] = useState(false);
+
+    const toggleMobileMenu = () => setShowingMobileMenu(!showingMobileMenu);
+
     return (
         <div className="min-h-screen bg-red-900">
             <nav className="shadow-lg bg-red-800 text-yellow-500">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
                         <div className="flex">
                             <div className="flex shrink-0 items-center">
@@ -27,7 +33,6 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex items-center">
-                                {/* Dropdown Group for MEM */}
                                 <Navbar />
                             </div>
                         </div>
@@ -79,13 +84,10 @@ export default function AuthenticatedLayout({ header, children }) {
                             </div>
                         </div>
 
+                        {/* Mobile Menu Button */}
                         <div className="-me-2 flex items-center sm:hidden">
                             <button
-                                onClick={() =>
-                                    setShowingNavigationDropdown(
-                                        (previousState) => !previousState
-                                    )
-                                }
+                                onClick={toggleMobileMenu}
                                 className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 transition duration-150 ease-in-out hover:bg-gray-100 hover:text-gray-500 focus:bg-gray-100 focus:text-gray-500 focus:outline-none"
                             >
                                 <svg
@@ -96,7 +98,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 >
                                     <path
                                         className={
-                                            !showingNavigationDropdown
+                                            !showingMobileMenu
                                                 ? "inline-flex"
                                                 : "hidden"
                                         }
@@ -107,7 +109,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     />
                                     <path
                                         className={
-                                            showingNavigationDropdown
+                                            showingMobileMenu
                                                 ? "inline-flex"
                                                 : "hidden"
                                         }
@@ -122,32 +124,21 @@ export default function AuthenticatedLayout({ header, children }) {
                     </div>
                 </div>
 
-                <div
-                    className={
-                        (showingNavigationDropdown ? "block" : "hidden") +
-                        " sm:hidden"
-                    }
-                >
-                    <div className="space-y-1 pb-3 pt-2">
-                        <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="border-t border-gray-200 pb-1 pt-4">
-                        <div className="px-4">
-                            <div className="text-base font-medium text-gray-800">
-                                {user.name}
-                            </div>
-                            <div className="text-sm font-medium text-gray-500">
-                                {user.email}
-                            </div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
+                {/* Mobile Menu Dropdown */}
+                {showingMobileMenu && (
+                    <div className="sm:hidden bg-red-800 text-yellow-500 px-4 py-3">
+                        <div className="space-y-1">
+                            {" "}
+                            {menus.map((m) => (
+                                <MobileDropdownMenu
+                                    key={m.label}
+                                    label={m.label}
+                                    items={m.items}
+                                />
+                            ))}
+                            <ResponsiveNavLink href={route("dashboard")}>
+                                Dashboard
+                            </ResponsiveNavLink>
                             <ResponsiveNavLink href={route("profile.edit")}>
                                 Profile
                             </ResponsiveNavLink>
@@ -160,7 +151,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             </ResponsiveNavLink>
                         </div>
                     </div>
-                </div>
+                )}
             </nav>
 
             {header && (
