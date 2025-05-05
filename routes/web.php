@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DigiCurController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,7 +35,8 @@ Route::middleware('auth')->group(function () {
      ->name('files.download');
      Route::get('/files/{company}/{filetype}', [FileController::class, 'byType'])->name('files.byType');
 
-
+     Route::get('/DigiCur/home', [DigiCurController::class, 'index'])->name('digicur.home');
+     Route::get('/records', [DigiCurController::class, 'displayAccounts'])->name('digicur.records');
 
     
     

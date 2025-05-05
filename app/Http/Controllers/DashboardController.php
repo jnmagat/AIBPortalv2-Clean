@@ -30,7 +30,6 @@ class DashboardController extends Controller
             'files' => $files,
             'employees' => $employees,
             'announcements' => $announcements,
-
         ]);
     }
             

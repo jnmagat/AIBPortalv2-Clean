@@ -6,7 +6,7 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link, usePage } from "@inertiajs/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faUpload, faBook } from "@fortawesome/free-solid-svg-icons";
 import MobileDropdownMenu from "@/Components/MobileDropdownMenu";
 import { menus } from "@/Components/Menus";
 
@@ -21,7 +21,7 @@ export default function AuthenticatedLayout({ header, children }) {
     const toggleMobileMenu = () => setShowingMobileMenu(!showingMobileMenu);
 
     return (
-        <div className="min-h-screen bg-red-900">
+        <div className="min-h-screen bg-white">
             <nav className="shadow-lg bg-red-800 text-yellow-500">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 justify-between">
@@ -40,6 +40,17 @@ export default function AuthenticatedLayout({ header, children }) {
                         <div className="hidden sm:ms-6 sm:flex sm:items-center">
                             <div className="relative ms-3">
                                 <Link
+                                    href={route("digicur.home")}
+                                    className="inline-flex items-center rounded-md border border-transparent bg-red-800 px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
+                                >
+                                    <FontAwesomeIcon
+                                        icon={faBook}
+                                        className="h-5 w-5 text-white hover:text-yellow-500"
+                                    />
+                                </Link>
+                            </div>{" "}
+                            <div className="relative ms-3">
+                                <Link
                                     href={route("files.create")}
                                     className="inline-flex items-center rounded-md border border-transparent bg-red-800 px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none"
                                 >
@@ -49,7 +60,6 @@ export default function AuthenticatedLayout({ header, children }) {
                                     />
                                 </Link>
                             </div>
-
                             <div className="relative ms-3">
                                 <Dropdown>
                                     <Dropdown.Trigger>
