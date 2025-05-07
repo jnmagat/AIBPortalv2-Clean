@@ -13,15 +13,15 @@ class Customer extends Model
         'firstName',
         'middleName',
         'lastName',
+        'customerID',
         'bankCode',
         'branch',
         'age',
-        'accountNumber',
     ];
 
     // Optional: relate back to account
     public function account()
     {
-        return $this->belongsTo(Account::class, 'accountNumber', 'accountNumber');
+        return $this->belongsTo(Account::class, 'customerID', 'customerID');
     }
 }

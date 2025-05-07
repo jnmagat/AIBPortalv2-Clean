@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
             $table->string('accountType');
+            $table->string('customerID');
             $table->integer('accountNumber');
             $table->integer('currentBalance');
             $table->datetime('lastTransaction');

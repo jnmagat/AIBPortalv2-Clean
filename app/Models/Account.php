@@ -11,6 +11,7 @@ class Account extends Model
 
     protected $fillable = [
         'accountType',
+        'customerID',
         'accountNumber',
         'currentBalance',
         'lastTransaction',
@@ -19,6 +20,6 @@ class Account extends Model
     // Optional: if you want to relate to Customer via accountNumber
     public function customer()
     {
-        return $this->hasOne(Customer::class, 'accountNumber', 'accountNumber');
+        return $this->hasOne(Customer::class, 'customerID', 'customerID');
     }
 }

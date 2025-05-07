@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
+        Schema::create('account_documents', function (Blueprint $table) {
             $table->id();
-            $table->string('firstName');
-            $table->string('middleName');
-            $table->string('lastName');
             $table->string('customerID');
-            $table->string('bankCode');
-            $table->string('branch');
-            $table->integer('age');
+            $table->string('accountNumber');
+            $table->string('documentID')->unique();
+            $table->string('documentName');
+            $table->string('documentType');
+            $table->string('filePath');
+            $table->timestamp('uploaded_at')->useCurrent();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('customer_documents');
     }
 };

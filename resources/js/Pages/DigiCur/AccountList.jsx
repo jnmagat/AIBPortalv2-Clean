@@ -4,15 +4,16 @@ import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { router } from "@inertiajs/react";
 
-export default function Records({ accounts, selectedType }) {
+export default function AccountList({ accounts, customer }) {
     return (
         <AuthenticatedLayout>
             <div className="p-6 max-w-5xl mx-auto m-5">
                 <div className="overflow-hidden shadow rounded-lg border border-gray-200">
-                    {/* Header inside table card */}
+                    {/* Header */}
                     <div className="bg-gray-100 px-6 py-4 border-b border-gray-200">
                         <h1 className="text-lg font-semibold text-gray-800">
-                            {selectedType} Accounts
+                            Accounts for {customer.firstName}{" "}
+                            {customer.lastName} (ID: {customer.customerID})
                         </h1>
                     </div>
 
@@ -22,10 +23,19 @@ export default function Records({ accounts, selectedType }) {
                             <thead className="bg-white">
                                 <tr>
                                     <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                                        Name
+                                        Account Number
                                     </th>
                                     <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                                        Actions
+                                        Account Type
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                                        Current Balance
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                                        Last Transaction
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                                        Action
                                     </th>
                                 </tr>
                             </thead>
@@ -37,18 +47,28 @@ export default function Records({ accounts, selectedType }) {
                                             className="hover:bg-gray-50"
                                         >
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                                {acc.customer.firstName}&nbsp;
-                                                {acc.customer.lastName}
+                                                {acc.accountNumber}
                                             </td>
-
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                {acc.accountType}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                ₱{" "}
+                                                {acc.currentBalance.toLocaleString()}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                                                {new Date(
+                                                    acc.lastTransaction
+                                                ).toLocaleDateString()}
+                                            </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                                                 <FontAwesomeIcon
-                                                    key={acc.customerID}
-                                                    id={acc.customerID}
+                                                    key={`${acc.customerID}-${acc.accountNumber}`}
+                                                    id={`${acc.customerID}-${acc.accountNumber}`}
                                                     icon={faFile}
                                                     onClick={() =>
                                                         router.get(
-                                                            `/customers/${acc.customer.customerID}/accounts`
+                                                            `/customers/${customer.customerID}/accounts/${acc.accountNumber}/documents`
                                                         )
                                                     }
                                                     className="h-5 w-5 text-blue-500 cursor-pointer hover:text-blue-800"
@@ -59,7 +79,7 @@ export default function Records({ accounts, selectedType }) {
                                 ) : (
                                     <tr>
                                         <td
-                                            colSpan="2"
+                                            colSpan="4"
                                             className="px-6 py-4 text-center text-gray-500"
                                         >
                                             No accounts found.
@@ -68,6 +88,7 @@ export default function Records({ accounts, selectedType }) {
                                 )}
                             </tbody>
                         </table>
+
                         {accounts.data.length > 0 && (
                             <Pagination links={accounts.links} />
                         )}

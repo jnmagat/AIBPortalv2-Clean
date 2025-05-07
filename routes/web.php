@@ -36,7 +36,11 @@ Route::middleware('auth')->group(function () {
      Route::get('/files/{company}/{filetype}', [FileController::class, 'byType'])->name('files.byType');
 
      Route::get('/DigiCur/home', [DigiCurController::class, 'index'])->name('digicur.home');
-     Route::get('/records', [DigiCurController::class, 'displayAccounts'])->name('digicur.records');
+     Route::get('/records', [DigiCurController::class, 'displayCustomers'])->name('digicur.records');
+     Route::get('/customers/{customerID}/accounts', [DigiCurController::class, 'displayAccounts']);
+     Route::get('/customers/{customerID}/accounts/{accountNumber}/documents', [DigiCurController::class, 'showAccountDocuments']);
+
+
 
     
     
