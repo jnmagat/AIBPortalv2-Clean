@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
      Route::get('/records', [DigiCurController::class, 'displayCustomers'])->name('digicur.records');
      Route::get('/customers/{customerID}/accounts', [DigiCurController::class, 'displayAccounts']);
      Route::get('/customers/{customerID}/accounts/{accountNumber}/documents', [DigiCurController::class, 'showAccountDocuments']);
+     Route::post('/documents/upload', [DigiCurController::class, 'uploadDocument'])->name('documents.upload');
 
 
 

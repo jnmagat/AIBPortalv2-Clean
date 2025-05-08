@@ -3,11 +3,19 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { router } from "@inertiajs/react";
+import Breadcrumbs from "@/Components/Breadcrumbs";
 
 export default function Records({ accounts, selectedType }) {
+    const breadcrumbs = [
+        {
+            label: `${selectedType}`,
+            isLink: false, // No link on the current page
+        },
+    ];
     return (
         <AuthenticatedLayout>
             <div className="p-6 max-w-5xl mx-auto m-5">
+                <Breadcrumbs breadcrumbs={breadcrumbs} />
                 <div className="overflow-hidden shadow rounded-lg border border-gray-200">
                     {/* Header inside table card */}
                     <div className="bg-gray-100 px-6 py-4 border-b border-gray-200">
@@ -42,17 +50,26 @@ export default function Records({ accounts, selectedType }) {
                                             </td>
 
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                                <FontAwesomeIcon
-                                                    key={acc.customerID}
-                                                    id={acc.customerID}
-                                                    icon={faFile}
-                                                    onClick={() =>
-                                                        router.get(
-                                                            `/customers/${acc.customer.customerID}/accounts`
-                                                        )
-                                                    }
-                                                    className="h-5 w-5 text-blue-500 cursor-pointer hover:text-blue-800"
-                                                />
+                                                <div className="relative group inline-block">
+                                                    <FontAwesomeIcon
+                                                        key={acc.customerID}
+                                                        id={acc.customerID}
+                                                        icon={faFile}
+                                                        onClick={() =>
+                                                            router.get(
+                                                                `/customers/${acc.customer.customerID}/accounts`,
+                                                                {
+                                                                    type: selectedType,
+                                                                }
+                                                            )
+                                                        }
+                                                        className="h-5 w-5 text-blue-500 cursor-pointer hover:text-blue-800"
+                                                    />
+                                                    {/* Tooltip shown when hovered on icon */}
+                                                    <div className="absolute -top-1 left-6 z-10 hidden group-hover:block whitespace-nowrap bg-gray-800 text-white text-xs rounded py-1 px-2 shadow-lg">
+                                                        View
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))

@@ -2,12 +2,26 @@ import Pagination from "@/Components/Pagination";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { faFile } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
+import Breadcrumbs from "@/Components/Breadcrumbs";
 
 export default function AccountList({ accounts, customer }) {
+    const { selectedType } = usePage().props;
+    const breadcrumbs = [
+        {
+            label: `${selectedType}`,
+            isLink: true,
+            link: `/records?type=${selectedType}`, // This takes you back to Savings/Current selection
+        },
+        {
+            label: `${customer.firstName} ${customer.lastName}`,
+            isLink: false, // No link on the current page
+        },
+    ];
     return (
         <AuthenticatedLayout>
             <div className="p-6 max-w-5xl mx-auto m-5">
+                <Breadcrumbs breadcrumbs={breadcrumbs} />
                 <div className="overflow-hidden shadow rounded-lg border border-gray-200">
                     {/* Header */}
                     <div className="bg-gray-100 px-6 py-4 border-b border-gray-200">
@@ -62,17 +76,24 @@ export default function AccountList({ accounts, customer }) {
                                                 ).toLocaleDateString()}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                                                <FontAwesomeIcon
-                                                    key={`${acc.customerID}-${acc.accountNumber}`}
-                                                    id={`${acc.customerID}-${acc.accountNumber}`}
-                                                    icon={faFile}
-                                                    onClick={() =>
-                                                        router.get(
-                                                            `/customers/${customer.customerID}/accounts/${acc.accountNumber}/documents`
-                                                        )
-                                                    }
-                                                    className="h-5 w-5 text-blue-500 cursor-pointer hover:text-blue-800"
-                                                />
+                                                <div className="relative group inline-block">
+                                                    <FontAwesomeIcon
+                                                        key={`${acc.customerID}-${acc.accountNumber}`}
+                                                        id={`${acc.customerID}-${acc.accountNumber}`}
+                                                        icon={faFile}
+                                                        onClick={() =>
+                                                            router.get(
+                                                                `/customers/${customer.customerID}/accounts/${acc.accountNumber}/documents`
+                                                            )
+                                                        }
+                                                        className="h-5 w-5 text-blue-500 cursor-pointer hover:text-blue-800"
+                                                    />
+                                                    {/* Tooltip shown when hovered on icon */}
+                                                    <div className="absolute -top-1 left-6 z-10 hidden group-hover:block whitespace-nowrap bg-gray-800 text-white text-xs rounded py-1 px-2 shadow-lg">
+                                                        View
+                                                    </div>
+                                                </div>
+                                                <FontAwesomeIcon />
                                             </td>
                                         </tr>
                                     ))
